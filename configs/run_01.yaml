@@ -1,5 +1,5 @@
 vocab_size: 8000      # Model tushunadigan tokenlar soni
-block_size: 256       # context_size//Foydalanuvchi berishi mumkin bolgan max token
+block_size: 256      # context_size//Foydalanuvchi berishi mumkin bolgan max token
 n_embd: 384           # width of the model// vector dimension 
 n_layer: 6            # model chuqurligi
 n_head: 6             # attention heads (384 / 6 = 64 per head)

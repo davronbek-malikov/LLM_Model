@@ -1,10 +1,9 @@
-# Only what lessons 1-7 actually use. We add packages when a lesson needs them,
+# Only what lessons 1-8 actually use. We add packages when a lesson needs them,
 # not before - every unused dependency is something that can break a classroom
 # of fifteen machines at once.
-#
-# torch arrives in Lesson 8, when we build the model.
 
 datasets>=3.1,<5.0
 tokenizers>=0.20,<1.0
 numpy>=1.26,<3.0
 PyYAML>=6.0,<7.0
+torch>=2.2,<3.0
