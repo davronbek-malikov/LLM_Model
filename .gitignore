@@ -1,0 +1,36 @@
+# The rule behind every line here:
+# we commit the CODE THAT REGENERATES a file, never the file itself.
+
+# ---- Data ----------------------------------------------------------------
+# Gigabytes, and fully reproducible from scripts/ + configs/. Committing it
+# once makes the repository unclonable forever, because Git keeps history.
+# We keep the empty folder markers so the structure survives a clean clone.
+data/**
+!data/**/
+!data/**/.gitkeep
+
+# ---- Generated dataset ---------------------------------------------------
+dataset/*.bin
+dataset/*.json
+
+# ---- Model weights (from Lesson 10 onwards) ------------------------------
+checkpoints/
+
+# ---- Secrets -------------------------------------------------------------
+# The most expensive line in this file.
+.env
+.env.*
+!.env.example
+
+# ---- Python --------------------------------------------------------------
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ---- Notebook and editor noise -------------------------------------------
+.ipynb_checkpoints/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
