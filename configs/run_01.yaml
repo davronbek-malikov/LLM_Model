@@ -1,8 +1,31 @@
 vocab_size: 8000      # Model tushunadigan tokenlar soni
 block_size: 256      # context_size//Foydalanuvchi berishi mumkin bolgan max token
-n_embd: 384           # width of the model// vector dimension 
+n_embd: 384           # width of the model// vector dimension
 n_layer: 6            # model chuqurligi
 n_head: 6             # attention heads (384 / 6 = 64 per head)
 dropout: 0.1
 ffn_mult: 4           # feed-forward is 4x wider than n_embd
 tie_weights: true     # output layer reuses the embedding table
+
+# ---- Lesson 10: training ------------------------------------------------
+# Effective batch = batch_size * grad_accum_steps = 32 * 4 = 128 sequences
+# = 128 * 256 = 32,768 tokens per optimizer step. With ~10.8M train tokens
+# that's roughly 330 steps per epoch - max_steps below sees the corpus a
+# little under 3 times, which is normal for a corpus this small.
+batch_size: 32
+grad_accum_steps: 4
+max_steps: 3000
+warmup_steps: 100
+lr_max: 3.0e-4
+min_lr_ratio: 0.1
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.95
+grad_clip: 1.0
+log_interval: 20
+eval_interval: 250
+eval_iters: 50
+checkpoint_interval: 250
+seed: 1337
+precision: auto        # bf16 if the GPU supports it, else fp16, else fp32
+out_dir: checkpoints

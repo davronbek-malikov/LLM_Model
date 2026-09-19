@@ -19,7 +19,7 @@ of compute is to multiply the numbers first.
 Lesson 8 will read this config and build the real model from it.
 """
 
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, fields
 
 import yaml
 
@@ -134,10 +134,17 @@ def load_config(path):
     The config lives in a file and not inside a .py file for one reason: six
     weeks from now, the only question that matters is "which settings produced
     this checkpoint?", and a filename can answer it.
+
+    From Lesson 10 onward, one run's YAML holds BOTH architecture fields (read
+    here) and training fields (read by src/train_config.py) side by side, so
+    a single filename still names the whole experiment. Unknown keys - the
+    training ones - are ignored here rather than raising, so this loader does
+    not need to change every time a training hyperparameter is added.
     """
     with open(path, "r", encoding="utf-8") as f:
         values = yaml.safe_load(f)
 
-    config = ModelConfig(**values)
+    known = {f.name for f in fields(ModelConfig)}
+    config = ModelConfig(**{k: v for k, v in values.items() if k in known})
     config.check()
     return config
