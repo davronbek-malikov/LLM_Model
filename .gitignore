@@ -10,8 +10,14 @@ data/**
 !data/**/.gitkeep
 
 # ---- Generated dataset ---------------------------------------------------
-dataset/*.bin
-dataset/*.json
+# Exception to the rule at the top of this file, made deliberately: the raw
+# and intermediate data (multi-GB, see "Data" above) stays out, but the
+# FINAL encoded corpus is small (~22MB total for TinyStories at vocab 8000),
+# frozen since the Lesson 3 dataset review, and committing it means Colab/
+# Kaggle can `git clone` and train directly - no separate upload step, no
+# re-running the whole pipeline on every fresh environment.
+# If the corpus ever grows past ~100MB, switch to Git LFS or Hugging Face
+# Hub instead of reverting this.
 
 # ---- Model weights (from Lesson 10 onwards) ------------------------------
 checkpoints/

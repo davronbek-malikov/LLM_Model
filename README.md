@@ -11,11 +11,18 @@ Data
 → Deduplication
 → Tokenizer
 → Dataset
-→ Model Design      <- we are here
+→ Model Design
+→ Model Code (built, all 4 sanity checks pass)
+→ Pretraining       <- we are here
 ```
 
-**Lesson 7:** we design the architecture of our own LLM.
-**Lesson 8:** we will implement the Transformer.
+**Lesson 7:** designed the architecture of our own LLM.
+**Lesson 8:** implemented the Transformer (`src/attention.py`, `mlp.py`,
+`transformer_block.py`, `model.py`) - `tests/test_model.py` passes all four
+checks (shape, random-init loss, overfit-one-batch, causality).
+**Lesson 10:** training loop (`scripts/train.py`) - run it once the checks
+above pass. Lesson 9 (serving dry run) and Lesson 11 (evaluation) are still
+open.
 
 ---
 
@@ -50,22 +57,43 @@ python scripts/train_tokenizer.py      # -> tokenizer/tokenizer.json
 python scripts/build_dataset.py        # -> dataset/train.bin, val.bin, meta.json
 ```
 
-## Today's lesson
+## Model design and build (Lessons 7-8)
 
 ```bash
-python scripts/design_model.py
+python scripts/design_model.py     # parameter/memory estimate vs. token budget
+python scripts/build_model.py      # builds OurLLM, prints it + real param count
+python tests/test_model.py         # 4 sanity checks - must all PASS before training
 ```
 
-It reads [`configs/run_01.yaml`](configs/run_01.yaml), estimates the parameter
-count and the memory it would need, and compares that against how many tokens
-we actually have.
+## Training (Lesson 10)
+
+```bash
+python scripts/train.py --config configs/run_01.yaml
+```
+
+`configs/run_01.yaml` holds both the architecture (read by
+`src/model_config.py`) and the training hyperparameters (read by
+`src/train_config.py`) for this run - one file names the whole experiment.
+
+If the session disconnects (Colab, Kaggle), resume with:
+
+```bash
+python scripts/train.py --config configs/run_01.yaml --resume checkpoints/last.pt
+```
+
+This restores the model weights, optimiser state and step count, so training
+picks up exactly where it left off rather than restarting cold.
 
 ---
 
 ## Two rules
 
-1. **Data and checkpoints never go into Git** - only the code that regenerates
-   them. See [`.gitignore`](.gitignore).
+1. **Raw/intermediate data and checkpoints never go into Git** - only the code
+   that regenerates them. See [`.gitignore`](.gitignore). The one deliberate
+   exception: the final `dataset/*.bin` + `meta.json` and `tokenizer/tokenizer.json`
+   ARE committed, small (~22MB total) and frozen since Lesson 3, specifically
+   so a fresh `git clone` on Colab/Kaggle can train immediately with no
+   separate upload step.
 2. **Every run gets its own config file.** Copy `run_01.yaml` to `run_02.yaml`;
    never edit a config in place to start a new experiment.
 
@@ -73,6 +101,6 @@ we actually have.
 
 ## Not built yet
 
-Attention, the transformer block, the model, training, evaluation, inference
-and deployment all belong to later lessons. Lesson 7 produces a design, not a
-model.
+Lesson 9 (serving a checkpoint behind a FastAPI + Docker dry run) and
+Lesson 11 (evaluation against baselines, perplexity, generation samples,
+`MODEL_CARD.md`) still belong to later lessons.

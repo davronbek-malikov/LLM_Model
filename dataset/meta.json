@@ -1,0 +1,13 @@
+{
+  "vocab_size": 8000,
+  "eos_id": 0,
+  "dtype": "uint16",
+  "block_size": 256,
+  "seed": 1337,
+  "val_ratio": 0.01,
+  "n_docs_train": 49390,
+  "n_docs_val": 498,
+  "n_tokens_train": 10795556,
+  "n_tokens_val": 108754,
+  "created": "2026-09-12 11:13:22"
+}
