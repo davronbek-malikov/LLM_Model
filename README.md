@@ -99,8 +99,43 @@ picks up exactly where it left off rather than restarting cold.
 
 ---
 
+## Try it live
+
+| | |
+|---|---|
+| **Demo UI** | https://our-llm-ui.vercel.app |
+| **API** | https://api-production-6a81.up.railway.app |
+
+```bash
+curl -X POST https://api-production-6a81.up.railway.app/generate \
+  -H "Content-Type: application/json" \
+  -d '{"prompt": "Once upon a time", "max_tokens": 50, "temperature": 0.8}'
+```
+
+The UI is a static page on Vercel; the API is the FastAPI app in
+[`deployment/`](deployment/), built from its Dockerfile on Railway and
+serving `checkpoints/model.pt` (the trained weights with the optimizer
+state stripped out) on CPU.
+
+## Evaluation (Lesson 11)
+
+```bash
+python evaluation/evaluate.py                                  # -> evaluation/results.json
+python evaluation/generate.py --prompt "Once upon a time"      # samples at 3 temperatures
+```
+
+Results from the run at step 2750:
+
+| Metric | Value |
+|---|---|
+| Validation loss (exact, full split) | 2.115 |
+| Validation perplexity | **8.29** |
+| Bigram baseline perplexity | 74.43 |
+| Random baseline perplexity | 8000.00 |
+| Bits-per-byte | 0.747 |
+| Train/val gap | 0.109 |
+
 ## Not built yet
 
-Lesson 9 (serving a checkpoint behind a FastAPI + Docker dry run) and
-Lesson 11 (evaluation against baselines, perplexity, generation samples,
-`MODEL_CARD.md`) still belong to later lessons.
+`MODEL_CARD.md` (intended use, limitations, known failure modes) and the
+Lesson 12 demo/viva material.
