@@ -146,10 +146,10 @@
 </div>
 
 <script>
-  // Filled in after the backend is deployed to Railway - see README for the
-  // exact value. Left as a placeholder so this file works out of the box
-  // for local testing against `uvicorn deployment.app:app`.
-  const API_URL = window.OUR_LLM_API_URL || "http://127.0.0.1:8000";
+  // The FastAPI backend, deployed on Railway from deployment/Dockerfile.
+  // Override it with window.OUR_LLM_API_URL (e.g. "http://127.0.0.1:8000")
+  // to point this same page at a locally-running `uvicorn deployment.app:app`.
+  const API_URL = window.OUR_LLM_API_URL || "https://api-production-6a81.up.railway.app";
 
   document.getElementById("apiLabel").textContent = API_URL;
 
