@@ -1,0 +1,66 @@
+{
+  "parameters": {
+    "total": 10745856
+  },
+  "dataset": {
+    "train_tokens": 10795556,
+    "val_tokens": 108754,
+    "vocab_size": 8000
+  },
+  "loss": {
+    "train_sampled": 2.0059453701376917,
+    "val_exact": 2.115379345023407,
+    "train_val_gap": 0.10943397488571538
+  },
+  "perplexity": {
+    "val": 8.292730975747801,
+    "random_baseline": 8000.0,
+    "bigram_baseline": 74.43001410047097,
+    "bits_per_byte_val": 0.7474733694770529
+  },
+  "generation_samples": [
+    {
+      "prompt": "Artificial intelligence will change the world because",
+      "temperature": 0.2,
+      "text": "Artificial intelligence will change the world because it was a special place to live.\n\nThe little girl was so excited that she decided to go on an adventure. She packed her bag and set off on a journey.\n\nWhen she arrived, she saw lots of interesting things. There",
+      "tokens_generated": 50,
+      "latency_ms": 933.1543000007514
+    },
+    {
+      "prompt": "Artificial intelligence will change the world because",
+      "temperature": 0.8,
+      "text": "Artificial intelligence will change the world because it was very special.\n\nCcrial was determined to get a better way. He got on his bike and was so excited.\n\nHe started walking down the street, trying to find an amazing place - he had never seen anything",
+      "tokens_generated": 50,
+      "latency_ms": 1076.3766999989457
+    },
+    {
+      "prompt": "Artificial intelligence will change the world because",
+      "temperature": 1.5,
+      "text": "Artificial intelligence will change the world because tomorrow would never be a real thing to make his dreams come true again to love.",
+      "tokens_generated": 17,
+      "latency_ms": 345.4007000000274
+    },
+    {
+      "prompt": "Once upon a time",
+      "temperature": 0.2,
+      "text": "Once upon a time, there was a little girl named Lily. She loved to play outside in the sun. One day, she saw a big tree with lots of leaves. She wanted to climb it and see what was inside.\n\nLily's mom said, \"",
+      "tokens_generated": 50,
+      "latency_ms": 1046.6893000011623
+    },
+    {
+      "prompt": "Once upon a time",
+      "temperature": 0.8,
+      "text": "Once upon a time there was a kind girl called Amy. She loved to explore new places and was always so small.\nOne day she went out to the park. There were lots of exciting things to do. She saw flowers, birds and birds. There were big",
+      "tokens_generated": 50,
+      "latency_ms": 959.7695000011299
+    },
+    {
+      "prompt": "Once upon a time",
+      "temperature": 1.5,
+      "text": "Once upon a time, a small rabbit named Benny liked to race in the forest near his farm. One day while he was sailing, Benny saw a small frog playing in the river. It loved a ball very much and had different leaves at flying far away by one another",
+      "tokens_generated": 50,
+      "latency_ms": 967.619700000796
+    }
+  ],
+  "verdict": "train/val gap is small - not clearly overfitting yet"
+}
