@@ -22,7 +22,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 # never crashes on output alone, on any platform.
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-from inference.engine import InferenceEngine
+from inference.engine import InferenceEngine, resolve_checkpoint
 
 DEFAULT_TEMPERATURES = [0.2, 0.8, 1.5]
 
@@ -33,14 +33,16 @@ def main():
     parser.add_argument("--max-tokens", type=int, default=50)
     parser.add_argument("--temperatures", type=float, nargs="+",
                          default=DEFAULT_TEMPERATURES)
-    parser.add_argument("--checkpoint", type=Path,
-                         default=Path("checkpoints/best.pt"))
+    # Default None, not a fixed path: resolve_checkpoint() picks whichever
+    # checkpoint this machine actually has (see inference/engine.py).
+    parser.add_argument("--checkpoint", type=Path, default=None)
     parser.add_argument("--config", type=Path, default=Path("configs/run_01.yaml"))
     parser.add_argument("--tokenizer", type=Path,
                          default=Path("tokenizer/tokenizer.json"))
     args = parser.parse_args()
 
-    engine = InferenceEngine(args.config, args.checkpoint, args.tokenizer)
+    engine = InferenceEngine(args.config, resolve_checkpoint(args.checkpoint),
+                              args.tokenizer)
 
     print("Prompt:", repr(args.prompt))
     print()

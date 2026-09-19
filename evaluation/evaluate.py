@@ -20,10 +20,9 @@ from evaluation.perplexity import (
     full_split_loss, random_baseline_loss, bigram_baseline_loss,
     perplexity, bits_per_byte,
 )
-from inference.engine import InferenceEngine
+from inference.engine import InferenceEngine, resolve_checkpoint
 
 CONFIG_PATH = Path("configs/run_01.yaml")
-CHECKPOINT_PATH = Path("checkpoints/best.pt")
 TOKENIZER_PATH = Path("tokenizer/tokenizer.json")
 TRAIN_BIN = Path("dataset/train.bin")
 VAL_BIN = Path("dataset/val.bin")
@@ -49,7 +48,7 @@ def val_byte_count(meta, seed):
 
 def main():
     meta = json.loads(META_FILE.read_text(encoding="utf-8"))
-    engine = InferenceEngine(CONFIG_PATH, CHECKPOINT_PATH, TOKENIZER_PATH)
+    engine = InferenceEngine(CONFIG_PATH, resolve_checkpoint(), TOKENIZER_PATH)
     model, device, config = engine.model, engine.device, engine.config
 
     print("=== Loss ===")

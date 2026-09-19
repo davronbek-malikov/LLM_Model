@@ -82,10 +82,35 @@ class InferenceEngine:
         return text, tokens_generated, latency_ms
 
 
+# Order matters: a machine that has just trained has best.pt (the full
+# training checkpoint, gitignored), and that should win because it is the
+# freshest thing that machine produced. A fresh `git clone` has only
+# model.pt - the inference-only weights we commit - so the fallback is what
+# makes "clone the repo and generate" work with no flags at all.
+CHECKPOINT_CANDIDATES = (Path("checkpoints/best.pt"), Path("checkpoints/model.pt"))
+
+
+def resolve_checkpoint(explicit=None):
+    """Return a checkpoint path that actually exists on this machine."""
+    if explicit is not None:
+        return Path(explicit)
+
+    for candidate in CHECKPOINT_CANDIDATES:
+        if candidate.exists():
+            return candidate
+
+    raise FileNotFoundError(
+        "No checkpoint found. Looked for: {}. Train one with "
+        "scripts/train.py, or pass --checkpoint explicitly.".format(
+            ", ".join(str(c) for c in CHECKPOINT_CANDIDATES)
+        )
+    )
+
+
 def default_engine():
     """Convenience constructor using the repo's standard file layout."""
     return InferenceEngine(
         config_path=Path("configs/run_01.yaml"),
-        checkpoint_path=Path("checkpoints/best.pt"),
+        checkpoint_path=resolve_checkpoint(),
         tokenizer_path=Path("tokenizer/tokenizer.json"),
     )
